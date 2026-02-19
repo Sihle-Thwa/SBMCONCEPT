@@ -1,0 +1,234 @@
+/* ================================================================
+   PricingPreview.css — OKLCH token edition
+================================================================ */
+
+.pricing-preview {
+  padding: var(--space-24) 0;
+  /* slightly raised section bg — mirrors .card surface */
+  background-color: var(--color-bg-raised);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Subtle grid texture behind section ────────────────────── */
+.pricing-preview::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--color-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.35;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+  z-index: 0;
+}
+
+/* ── Layout ────────────────────────────────────────────────── */
+.pricing-preview__container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  position: relative;
+  z-index: var(--z-raised);
+}
+
+/* ── Section header ────────────────────────────────────────── */
+.pricing-preview__header {
+  text-align: center;
+  margin-bottom: var(--space-16);
+}
+
+.pricing-preview__label {
+  display: inline-block;
+  color: var(--color-primary);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-widest);
+  margin-bottom: var(--space-4);
+}
+
+.pricing-preview__title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-fg);
+  margin-bottom: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .pricing-preview__title {
+    font-size: var(--text-4xl);
+  }
+}
+
+.pricing-preview__subtitle {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--color-fg-muted);
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+/* ── Card grid ─────────────────────────────────────────────── */
+.pricing-preview__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .pricing-preview__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .pricing-preview__grid {
+    grid-template-columns: repeat(4, 1fr);
+    align-items: start;
+  }
+}
+
+/* ── Base card ─────────────────────────────────────────────── */
+.pricing-preview__card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  background-image: var(--gradient-card);
+  box-shadow: var(--shadow-card);
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    box-shadow   var(--duration-base) var(--ease-out),
+    transform    var(--duration-base) var(--ease-out);
+}
+
+.pricing-preview__card:hover {
+  border-color: var(--color-border-primary);
+  transform: translateY(-3px);
+}
+
+/* ── Popular card override ─────────────────────────────────── */
+.pricing-preview__card--popular {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-glow), var(--shadow-card);
+  /* slightly elevated scale to visually pop in the grid */
+  transform: scale(1.02);
+}
+
+.pricing-preview__card--popular:hover {
+  transform: scale(1.02) translateY(-3px);
+  box-shadow: var(--shadow-glow-lg), var(--shadow-card);
+}
+
+/* ── Popular badge ─────────────────────────────────────────── */
+.pricing-preview__popular-badge {
+  position: absolute;
+  top: -0.85rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.25rem var(--space-4);
+  background-image: var(--gradient-primary);
+  color: var(--color-primary-fg);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  font-family: var(--font-body);
+  letter-spacing: var(--tracking-wider);
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  box-shadow: var(--shadow-button);
+}
+
+/* ── Card header ───────────────────────────────────────────── */
+.pricing-preview__card-header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.pricing-preview__card-name {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-fg);
+  margin-bottom: var(--space-3);
+}
+
+/* ── Price ─────────────────────────────────────────────────── */
+.pricing-preview__card-price-wrapper {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--space-1);
+  margin-bottom: var(--space-2);
+}
+
+.pricing-preview__card-price-detail {
+  color: var(--color-fg-subtle);
+  font-size: var(--text-sm);
+  font-family: var(--font-body);
+}
+
+.pricing-preview__card-price {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  line-height: 1;
+  background-image: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.pricing-preview__card-desc {
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  color: var(--color-fg-muted);
+}
+
+/* ── Feature list ──────────────────────────────────────────── */
+.pricing-preview__card-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.pricing-preview__feature {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.pricing-preview__feature-icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  /* small background circle for the check */
+  background-color: var(--color-primary-muted);
+  border-radius: var(--radius-full);
+  padding: 2px;
+  box-sizing: content-box;
+}
+
+.pricing-preview__feature-text {
+  color: var(--color-fg-muted);
+  line-height: var(--leading-snug);
+}
+
+/* ── Footer CTA link ───────────────────────────────────────── */
+.pricing-preview__footer {
+  text-align: center;
+  margin-top: var(--space-12);
+}

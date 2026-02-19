@@ -1,0 +1,107 @@
+/* ================================================================
+   CTASection.css — OKLCH token edition
+================================================================ */
+
+.cta-section {
+  padding: var(--space-24) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Background surface ────────────────────────────────────── */
+.cta-section__bg {
+  position: absolute;
+  inset: 0;
+  background-image: var(--gradient-card);
+}
+
+/* ── Top radial glow orb ───────────────────────────────────── */
+.cta-section__orb {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 400px;
+  /* teal glow — matches --shadow-glow colour at low opacity */
+  background: oklch(0.72 0.13 185 / 0.07);
+  border-radius: var(--radius-full);
+  filter: blur(56px);
+  pointer-events: none;
+}
+
+/* ── Layout ────────────────────────────────────────────────── */
+.cta-section__container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  position: relative;
+  z-index: var(--z-raised);
+}
+
+.cta-section__content {
+  max-width: 48rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* ── Icon wrapper ──────────────────────────────────────────── */
+.cta-section__icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-primary-muted);
+  border: 1px solid var(--color-border-primary);
+  margin-bottom: var(--space-8);
+  /* subtle pulse so it draws attention */
+  animation: pulse-glow 3s var(--ease-in-out) infinite;
+}
+
+.cta-section__icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--color-primary);
+}
+
+/* ── Title ─────────────────────────────────────────────────── */
+.cta-section__title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-fg);
+  margin-bottom: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .cta-section__title {
+    font-size: var(--text-5xl);
+  }
+}
+
+/* ── Subtitle ──────────────────────────────────────────────── */
+.cta-section__subtitle {
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--color-fg-muted);
+  margin-bottom: var(--space-10);
+}
+
+/* ── Action buttons ────────────────────────────────────────── */
+.cta-section__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .cta-section__actions {
+    flex-direction: row;
+  }
+}

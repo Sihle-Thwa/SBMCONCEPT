@@ -1,0 +1,264 @@
+.quote-hero {
+  padding: 6rem 0;
+  position: relative;
+}
+
+.quote-hero__orb {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 300px;
+  background: hsl(var(--primary) / 0.05);
+  border-radius: 9999px;
+  filter: blur(48px);
+}
+
+.quote-hero__container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+.quote-hero__content {
+  text-align: center;
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.quote-hero__label {
+  color: hsl(var(--primary));
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.quote-hero__title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .quote-hero__title {
+    font-size: 3rem;
+  }
+}
+
+.quote-hero__subtitle {
+  font-size: 1.125rem;
+  color: hsl(var(--muted-foreground));
+}
+
+/* Calculator */
+.quote-calc {
+  padding-bottom: 6rem;
+}
+
+.quote-calc__container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.quote-calc__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .quote-calc__grid {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.quote-calc__form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.quote-calc__card {
+  background: hsl(var(--card));
+  border-radius: 1rem;
+  padding: 2rem;
+  border: 1px solid hsl(var(--border));
+}
+
+.quote-calc__card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-family: 'Playfair Display', Georgia, serif;
+  margin-bottom: 1.5rem;
+}
+
+.quote-calc__card-title .highlight {
+  color: hsl(var(--primary));
+}
+
+.quote-calc__radio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.quote-calc__radio-grid--timeline {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.quote-calc__features-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .quote-calc__features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.quote-calc__feature-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid hsl(var(--border));
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.quote-calc__feature-item--active {
+  border-color: hsl(var(--primary));
+  background: hsl(var(--primary) / 0.05);
+}
+
+.quote-calc__feature-item:hover {
+  border-color: hsl(var(--primary) / 0.5);
+}
+
+.quote-calc__feature-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.quote-calc__feature-label {
+  font-weight: 500;
+}
+
+.quote-calc__feature-price {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.quote-calc__slider-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+}
+
+/* Estimate Card */
+.quote-calc__estimate {
+  position: sticky;
+  top: 7rem;
+  background-image: var(--gradient-card);
+  border-radius: 1rem;
+  padding: 2rem;
+  border: 1px solid hsl(var(--primary));
+  box-shadow: var(--shadow-glow);
+}
+
+.quote-calc__estimate-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.quote-calc__estimate-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  background: hsl(var(--primary) / 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quote-calc__estimate-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: hsl(var(--primary));
+}
+
+.quote-calc__estimate-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.quote-calc__estimate-body {
+  margin-bottom: 2rem;
+}
+
+.quote-calc__estimate-label {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 0.5rem;
+}
+
+.quote-calc__estimate-value {
+  font-size: 2.25rem;
+  font-weight: 700;
+  background-image: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.quote-calc__estimate-note {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  margin-top: 0.5rem;
+}
+
+.quote-calc__estimate-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.quote-calc__estimate-feature {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.quote-calc__estimate-feature svg {
+  width: 1rem;
+  height: 1rem;
+  color: hsl(var(--primary));
+}
+
+.quote-calc__estimate-feature span {
+  color: hsl(var(--muted-foreground));
+}
+
+.quote-calc__estimate-disclaimer {
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  text-align: center;
+  margin-top: 1rem;
+}
