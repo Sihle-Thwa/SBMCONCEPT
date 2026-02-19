@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Check, ArrowRight, HelpCircle } from "lucide-react";
-import { Layout } from "@/components/layout/Layout";
+import { Layout } from "../components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import "./Pricing.css";
 

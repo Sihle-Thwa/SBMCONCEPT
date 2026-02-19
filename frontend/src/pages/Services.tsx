@@ -5,7 +5,7 @@ import {
   Building2, Landmark, GraduationCap, Heart, ShoppingCart, 
   Factory, Radio, Briefcase 
 } from "lucide-react";
-import { Layout } from "@/components/layout/Layout";
+import { Layout } from "../components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import "./Services.css";
 
