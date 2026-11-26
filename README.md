@@ -38,12 +38,12 @@ Vite starts the development server on port `8080` by default.
 
 Run these from `frontend/`:
 
-| Command | Description |
-| --- | --- |
-| `npm run dev` | Start the development server. |
-| `npm run build` | Type-check and build the site for production. |
-| `npm run lint` | Run ESLint. |
-| `npm run preview` | Preview a production build locally. |
+| Command           | Description                                   |
+| ----------------- | --------------------------------------------- |
+| `npm run dev`     | Start the development server.                 |
+| `npm run build`   | Type-check and build the site for production. |
+| `npm run lint`    | Run ESLint.                                   |
+| `npm run preview` | Preview a production build locally.           |
 
 ## Technology
 
