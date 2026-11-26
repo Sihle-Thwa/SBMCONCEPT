@@ -1,100 +1,93 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import "./Navbar.css";
+import { useState } from "react"
+import { Link, NavLink } from "react-router-dom"
+import { ArrowUpRight, Menu, X } from "lucide-react"
+import "./Navbar.css"
 
 const navLinks = [
-  { name: "Home", path: "/" },
-  { name: "Services", path: "/services" },
-  { name: "Pricing", path: "/pricing" },
-  { name: "About", path: "/about" },
-  { name: "Portfolio", path: "/portfolio" },
-  { name: "Contact", path: "/contact" },
-];
+	{ to: "/services", label: "Services" },
+	{ to: "/portfolio", label: "Work" },
+	{ to: "/about", label: "About" },
+	{ to: "/pricing", label: "Pricing" },
+] as const
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
+	const [isOpen, setIsOpen] = useState(false)
 
-  return (
-    <header className="navbar">
-      <div className="navbar__container">
-        <nav className="navbar__nav">
-          <Link to="/" className="navbar__logo">
-            <div className="navbar__logo-icon">
-              <span>S</span>
-            </div>
-            <span className="navbar__logo-text">
-              SBM<span className="highlight">Concepts</span>
-            </span>
-          </Link>
+	const closeMenu = () => setIsOpen(false)
 
-          <div className="navbar__links">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`navbar__link ${location.pathname === link.path ? "navbar__link--active" : ""}`}
-              >
-                {link.name}
-                {location.pathname === link.path && (
-                  <motion.div
-                    layoutId="navbar-indicator"
-                    className="navbar__link-indicator"
-                  />
-                )}
-              </Link>
-            ))}
-          </div>
+	return (
+		<header className="navbar">
+			<div className="navbar__container">
+				<Link to="/" className="navbar__brand" onClick={closeMenu}>
+					<img
+						src="/Logomark.png"
+						alt=""
+						width="32"
+						height="32"
+						className="navbar__logo"
+					/>
+					<span className="navbar__brand-name">SBM Concepts</span>
+				</Link>
 
-          <div className="navbar__cta">
-            <Button variant="gold" size="lg" asChild>
-              <Link to="/quote">
-                Get a Quote
-              </Link>
-            </Button>
-          </div>
+				<nav aria-label="Primary navigation" className="navbar__links">
+					{navLinks.map((link) => (
+						<NavLink
+							key={link.to}
+							to={link.to}
+							className={({ isActive }) =>
+								`navbar__link${isActive ? " navbar__link--active" : ""}`
+							}>
+							{link.label}
+						</NavLink>
+					))}
+				</nav>
 
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="navbar__mobile-toggle"
-          >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </nav>
-      </div>
+				<div className="navbar__actions">
+					<Link to="/quote" className="navbar__estimate-link">
+						Get an estimate
+					</Link>
+					<Link to="/contact" className="navbar__project-link">
+						Start a project
+						<ArrowUpRight aria-hidden="true" className="navbar__project-icon" />
+					</Link>
+				</div>
 
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="navbar__mobile-menu"
-          >
-            <div className="navbar__mobile-inner">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setIsOpen(false)}
-                  className={`navbar__mobile-link ${location.pathname === link.path ? "navbar__mobile-link--active" : ""}`}
-                >
-                  {link.name}
-                </Link>
-              ))}
-              <Button variant="hero" size="lg" className="w-full mt-4" asChild>
-                <Link to="/quote" onClick={() => setIsOpen(false)}>
-                  Get a Quote
-                  <ChevronRight className="w-2 h-2" />
-                </Link>
-              </Button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </header>
-  );
+				<button
+					type="button"
+					className="navbar__mobile-toggle"
+					aria-label={isOpen ? "Close menu" : "Open menu"}
+					aria-expanded={isOpen}
+					aria-controls="navbar-mobile-menu"
+					onClick={() => setIsOpen(!isOpen)}>
+					{isOpen ?
+						<X aria-hidden="true" />
+					:	<Menu aria-hidden="true" />}
+				</button>
+			</div>
+
+			<nav
+				id="navbar-mobile-menu"
+				aria-label="Mobile navigation"
+				className="navbar__mobile-menu"
+				hidden={!isOpen}>
+				{navLinks.map((link) => (
+					<NavLink
+						key={link.to}
+						to={link.to}
+						onClick={closeMenu}
+						className={({ isActive }) =>
+							`navbar__mobile-link${isActive ? " navbar__mobile-link--active" : ""}`
+						}>
+						{link.label}
+					</NavLink>
+				))}
+				<Link to="/quote" onClick={closeMenu} className="navbar__mobile-link">
+					Get an estimate
+				</Link>
+				<Link to="/contact" onClick={closeMenu} className="navbar__mobile-link">
+					Start a project
+				</Link>
+			</nav>
+		</header>
+	)
 }

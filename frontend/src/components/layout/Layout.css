@@ -12,6 +12,4 @@
 
 .layout__main {
   flex: 1;
-  /* offset for the fixed 5rem navbar */
-  padding-top: 5rem;
 }

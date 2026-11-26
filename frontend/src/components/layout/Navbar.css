@@ -1,218 +1,192 @@
-/* ================================================================
-   Navbar.css — OKLCH token edition
-================================================================ */
-
 .navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: var(--z-sticky);
-  /* glass surface — matches .nav in index.css */
-  backdrop-filter: blur(24px) saturate(1.4);
-  -webkit-backdrop-filter: blur(24px) saturate(1.4);
-  background-color: color-mix(in oklch, var(--color-bg-raised), transparent 15%);
-  border-bottom: 1px solid var(--color-border);
+	position: sticky;
+	top: 0;
+	z-index: var(--z-sticky);
+	border-bottom: 1px solid var(--color-border);
+	background-color: color-mix(
+		in oklch,
+		var(--color-bg-raised),
+		transparent 15%
+	);
+	backdrop-filter: blur(24px) saturate(1.4);
+	-webkit-backdrop-filter: blur(24px) saturate(1.4);
 }
 
-/* ── Container ─────────────────────────────────────────────── */
 .navbar__container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 var(--space-6);
+	width: 100%;
+	max-width: 1280px;
+	min-height: 72px;
+	margin: 0 auto;
+	padding: 12px 20px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
 }
 
-.navbar__nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 5rem;
-  gap: var(--space-8);
+.navbar__brand {
+	display: inline-flex;
+	align-items: center;
+	gap: 12px;
+	color: var(--color-fg);
+	text-decoration: none;
+	flex-shrink: 0;
 }
 
-/* ── Logo ──────────────────────────────────────────────────── */
 .navbar__logo {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  text-decoration: none;
-  flex-shrink: 0;
+	display: block;
+	width: 32px;
+	height: 32px;
+	object-fit: contain;
 }
 
-.navbar__logo-icon {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: var(--radius-md);
-  background-image: var(--gradient-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-button);
-  flex-shrink: 0;
+.navbar__brand-name {
+	font-family: var(--font-display);
+	font-size: 1.125rem;
+	font-weight: 700;
+	letter-spacing: -0.025em;
+	white-space: nowrap;
 }
 
-.navbar__logo-icon span {
-  font-size: var(--text-xl);
-  font-weight: 700;
-  color: var(--color-primary-fg);
-  font-family: var(--font-display);
-  line-height: 1;
+.navbar__links,
+.navbar__actions {
+	display: none;
 }
 
-.navbar__logo-text {
-  font-size: var(--text-xl);
-  font-weight: 700;
-  color: var(--color-fg);
-  font-family: var(--font-display);
-  letter-spacing: var(--tracking-tight);
+.navbar__link,
+.navbar__estimate-link {
+	color: var(--color-fg-muted);
+	font-family: var(--font-body);
+	font-size: 0.875rem;
+	font-weight: 500;
+	text-decoration: none;
+	transition: color 0.2s ease;
 }
 
-.navbar__logo-text .highlight {
-  color: var(--color-primary);
+.navbar__link:hover,
+.navbar__link--active,
+.navbar__estimate-link:hover {
+	color: var(--color-fg);
 }
 
-/* ── Desktop links ─────────────────────────────────────────── */
-.navbar__links {
-  display: none;
-  align-items: center;
-  gap: var(--space-8);
-  flex: 1;
+.navbar__actions {
+	align-items: center;
+	gap: 20px;
+	flex-shrink: 0;
 }
 
-@media (min-width: 1024px) {
-  .navbar__links {
-    display: flex;
-  }
+.navbar__estimate-link {
+	white-space: nowrap;
+	text-underline-offset: 4px;
 }
 
-.navbar__link {
-  font-size: var(--text-sm);
-  font-weight: 500;
-  font-family: var(--font-body);
-  color: var(--color-fg-muted);
-  text-decoration: none;
-  position: relative;
-  padding-bottom: var(--space-1);
-  transition: color var(--duration-fast) var(--ease-out);
+.navbar__estimate-link:hover {
+	text-decoration: underline;
 }
 
-.navbar__link:hover {
-  color: var(--color-fg);
+.navbar__project-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 10px 20px;
+	border-radius: var(--radius-full);
+	background-color: var(--color-primary);
+	color: var(--color-primary-fg);
+	font-size: 0.875rem;
+	font-weight: 600;
+	text-decoration: none;
+	white-space: nowrap;
+	transition:
+		background-color 0.2s ease,
+		transform 0.2s ease;
 }
 
-.navbar__link--active {
-  color: var(--color-primary);
+.navbar__project-link:hover {
+	filter: brightness(1.08);
+	transform: translateY(-1px);
 }
 
-/* Animated underline indicator — driven by framer-motion layoutId */
-.navbar__link-indicator {
-  position: absolute;
-  bottom: -0.25rem;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background-image: var(--gradient-primary);
-  border-radius: var(--radius-full);
-  box-shadow: 0 0 8px oklch(0.72 0.13 185 / 0.50);
+.navbar__project-icon {
+	width: 16px;
+	height: 16px;
 }
 
-/* ── Desktop CTA ───────────────────────────────────────────── */
-.navbar__cta {
-
-  display: none;
-  align-items: center;
-  gap: var(--space-2);
-  flex-shrink: 0;
-  
-}
-
-@media (min-width: 1024px) {
-  .navbar__cta {
-    display: flex;
-    justify-self: start;
-    padding: var(--space-2) var(--space-4);
-    width: 100%;
-    max-width: 200px;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-button);
-    color: var(--color-primary-fg) !important;
-  }
-}
-
-/* ── Mobile hamburger ──────────────────────────────────────── */
 .navbar__mobile-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: var(--radius-md);
-  color: var(--color-fg-muted);
-  background: transparent;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition:
-    color            var(--duration-fast) var(--ease-out),
-    background-color var(--duration-fast) var(--ease-out),
-    border-color     var(--duration-fast) var(--ease-out);
+	display: inline-flex;
+	width: 40px;
+	height: 40px;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid transparent;
+	border-radius: var(--radius-md);
+	background: transparent;
+	color: var(--color-fg);
+	cursor: pointer;
+	flex-shrink: 0;
 }
 
 .navbar__mobile-toggle:hover {
-  color: var(--color-fg);
-  background-color: var(--color-bg-elevated);
-  border-color: var(--color-border);
+	border-color: var(--color-border);
+	background-color: var(--color-bg-raised);
 }
 
-@media (min-width: 1024px) {
-  .navbar__mobile-toggle {
-    display: none;
-  }
+.navbar__mobile-toggle svg {
+	width: 24px;
+	height: 24px;
 }
 
-/* ── Mobile menu panel ─────────────────────────────────────── */
 .navbar__mobile-menu {
-  backdrop-filter: blur(24px) saturate(1.4);
-  -webkit-backdrop-filter: blur(24px) saturate(1.4);
-  background-color: color-mix(in oklch, var(--color-bg-raised), transparent 10%);
-  border-top: 1px solid var(--color-border);
-  overflow: hidden;
-}
-
-@media (min-width: 1024px) {
-  .navbar__mobile-menu {
-    display: none;
-  }
-}
-
-.navbar__mobile-inner {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: var(--space-6) var(--space-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
+	max-width: 1280px;
+	margin: 0 auto;
+	padding: 8px 20px 24px;
+	border-top: 1px solid var(--color-border);
 }
 
 .navbar__mobile-link {
-  display: block;
-  padding: var(--space-3) var(--space-3);
-  font-size: var(--text-base);
-  font-weight: 500;
-  font-family: var(--font-body);
-  text-decoration: none;
-  color: var(--color-fg-muted);
-  border-radius: var(--radius-md);
-  transition:
-    color            var(--duration-fast) var(--ease-out),
-    background-color var(--duration-fast) var(--ease-out);
+	display: block;
+	padding: 16px 0;
+	border-bottom: 1px solid var(--color-border);
+	color: var(--color-fg);
+	font-family: var(--font-display);
+	font-size: 1.5rem;
+	font-weight: 600;
+	text-decoration: none;
 }
 
-.navbar__mobile-link:hover {
-  color: var(--color-fg);
-  background-color: var(--color-bg-elevated);
-}
-
+.navbar__mobile-link:hover,
 .navbar__mobile-link--active {
-  color: var(--color-primary);
-  background-color: var(--color-primary-muted);
+	color: var(--color-primary);
+}
+
+.navbar__brand:focus-visible,
+.navbar__link:focus-visible,
+.navbar__estimate-link:focus-visible,
+.navbar__project-link:focus-visible,
+.navbar__mobile-toggle:focus-visible,
+.navbar__mobile-link:focus-visible {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 4px;
+}
+
+@media (min-width: 1024px) {
+	.navbar__container {
+		padding-right: 32px;
+		padding-left: 32px;
+	}
+
+	.navbar__links {
+		display: flex;
+		align-items: center;
+		gap: 32px;
+	}
+
+	.navbar__actions {
+		display: flex;
+	}
+
+	.navbar__mobile-toggle,
+	.navbar__mobile-menu {
+		display: none;
+	}
 }
