@@ -1,26 +1,26 @@
 # SBM Concepts
 
-SBM Concepts is a technology consulting website for presenting the firm's digital services and helping prospective clients explore project options. The site describes web and software development, DevOps and cloud services, and IT consulting, with information about capabilities, pricing, and example work.
+SBM Concepts is a technology consulting firm. This repository contains its business website, which introduces the firm's services and helps prospective clients explore project options.
 
-## What the site includes
+The site presents support for organizations looking to plan, build, or modernize digital products and systems.
 
-- **Home** - an overview of the business, its value propositions, and featured pricing.
-- **Services** - service descriptions and industries served.
-- **Pricing** - indicative service tiers and frequently asked questions.
-- **Quote calculator** - an interactive estimate based on project type, selected features, page count, and timeline. Estimates are preliminary, not formal quotes.
-- **About** - mission, competencies, technology areas, and compliance information.
-- **Portfolio** - example project summaries and a featured case study.
-- **Contact** - contact details and a project inquiry form.
+## Services featured
 
-The application is a client-side frontend. It currently has no backend integration: the contact form displays a local success message and does not send or store submissions. Portfolio entries and pricing are presented as website content and should be confirmed with SBM Concepts before being treated as current client work or binding offers.
+- Web development, including custom websites, web applications, e-commerce, and portals
+- Custom software development and integrations
+- DevOps, cloud infrastructure, and delivery automation
+- IT consulting and technology strategy
 
-## Technology
+## Website preview
 
-- React 19 and TypeScript
-- Vite
-- React Router
-- Tailwind CSS 4, with project-specific CSS
-- Radix UI-based components, Lucide icons, and Framer Motion
+- **Live website:** _Add the verified production URL when available._
+- **Screenshot:** _Add a homepage screenshot here when available._
+
+## Current status
+
+- The quote calculator provides an indicative estimate only; it is not a formal quote.
+- Portfolio projects, case-study details, results, and pricing are website content. Confirm that they are accurate and approved for publication before presenting them as client work or binding offers.
+- The contact form is currently a frontend demonstration: it displays a success message but does not send or store submissions. Do not rely on it to contact the business.
 
 ## Run locally
 
@@ -34,43 +34,17 @@ npm run dev
 
 Vite starts the development server on port `8080` by default.
 
-## Available scripts
+## Development commands
 
-Run these from the `frontend/` directory:
+Run these from `frontend/`:
 
 | Command | Description |
 | --- | --- |
-| `npm run dev` | Start the local development server. |
-| `npm run build` | Type-check the project and create a production build. |
+| `npm run dev` | Start the development server. |
+| `npm run build` | Type-check and build the site for production. |
 | `npm run lint` | Run ESLint. |
-| `npm run preview` | Preview the production build locally. |
+| `npm run preview` | Preview a production build locally. |
 
-## Project structure
+## Technology
 
-```text
-frontend/
-  public/          Static assets
-  src/
-    components/    Shared layout, homepage, and UI components
-    hooks/         React hooks
-    lib/           Shared utilities
-    pages/         Route-level pages
-    App.tsx        Client-side routes
-    main.tsx       Application entry point
-  index.html
-  package.json
-```
-
-## Routes
-
-| Path | Page |
-| --- | --- |
-| `/` | Home |
-| `/services` | Services |
-| `/pricing` | Pricing |
-| `/quote` | Quote calculator |
-| `/about` | About |
-| `/portfolio` | Portfolio |
-| `/contact` | Contact |
-
-Unmatched paths display a not-found page.
+React, TypeScript, Vite, React Router, Tailwind CSS, Radix UI components, Lucide icons, and Framer Motion.
