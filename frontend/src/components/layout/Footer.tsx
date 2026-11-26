@@ -80,7 +80,7 @@ export function Footer() {
 							<li className="footer__contact-item">
 								<Mail aria-hidden="true" className="footer__contact-icon" />
 								<a
-									href="mailto:info@sbmconcepts.co.za"
+									href="mailto:admin@sbmconcepts.com"
 									className="footer__contact-link">
 									admin@sbmconcepts.com
 								</a>
