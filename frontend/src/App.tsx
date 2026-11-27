@@ -6,13 +6,13 @@ import { BrowserRouter, Link, Route, Routes } from "react-router-dom"
 import { Layout } from "./components/layout/Layout"
 import Index from "./pages/Index"
 import Services from "./pages/Services"
-import Pricing from "./pages/Pricing"
 import Quote from "./pages/Quote"
 import About from "./pages/About"
 import Work from "./pages/Work"
 import Contact from "./pages/Contact"
 import NotFound from "./pages/NotFound"
 import "./App.css"
+import Pricing from "./pages/Pricing"
 
 const queryClient = new QueryClient()
 
