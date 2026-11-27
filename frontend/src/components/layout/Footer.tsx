@@ -1,17 +1,11 @@
 import { Link } from "react-router-dom"
 import { ArrowUpRight, Mail, MapPin } from "lucide-react"
 import "./Footer.css"
-
-const services = [
-	"Web Development",
-	"Software Development",
-	"DevOps & Cloud",
-	"IT Consulting",
-]
+import { services } from "../../lib/site-data"
 
 const companyLinks = [
 	{ label: "About", to: "/about" },
-	{ label: "Work", to: "/portfolio" },
+	{ label: "Work", to: "/work" },
 	{ label: "Pricing", to: "/pricing" },
 	{ label: "Estimate calculator", to: "/quote" },
 ]
@@ -52,9 +46,11 @@ export function Footer() {
 						<h3 className="footer__section-title">Services</h3>
 						<ul className="footer__link-list">
 							{services.map((service) => (
-								<li key={service}>
-									<Link to="/services" className="footer__link">
-										{service}
+								<li key={service.slug}>
+									<Link
+										to={`/services#${service.slug}`}
+										className="footer__link">
+										{service.title}
 									</Link>
 								</li>
 							))}

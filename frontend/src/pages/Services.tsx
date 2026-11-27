@@ -1,5 +1,5 @@
 import { useEffect, type ReactNode } from "react"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { ArrowUpRight, Check } from "lucide-react"
 import { Layout } from "@/components/layout/Layout"
 import { Reveal } from "@/lib/Reveal"
@@ -37,6 +37,8 @@ function Eyebrow({
 }
 
 function Services() {
+	const location = useLocation()
+
 	useEffect(() => {
 		const previousTitle = document.title
 		document.title = "Services - SBM Concepts"
@@ -70,6 +72,15 @@ function Services() {
 			restoreMetadata.forEach((restore) => restore())
 		}
 	}, [])
+
+	useEffect(() => {
+		if (!location.hash) return
+
+		document.getElementById(location.hash.slice(1))?.scrollIntoView({
+			behavior: "smooth",
+			block: "start",
+		})
+	}, [location.hash])
 
 	return (
 		<Layout>
