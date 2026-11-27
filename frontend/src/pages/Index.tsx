@@ -75,10 +75,6 @@ function Index() {
 		<Layout>
 			<section className="home-hero">
 				<div className="home-container home-hero__content">
-					<p className="home-hero__badge">
-						<span aria-hidden="true" />
-						Software consultancy · Johannesburg
-					</p>
 					<h1 className="home-hero__title">
 						We engineer
 						<br />
