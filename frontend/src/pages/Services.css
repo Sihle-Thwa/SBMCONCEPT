@@ -1,7 +1,6 @@
 .services-container {
 	width: 100%;
-	max-width: 1280px;
-	margin: 0 auto;
+	margin-inline: auto;
 	padding-right: 20px;
 	padding-left: 20px;
 }
