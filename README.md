@@ -13,8 +13,9 @@ The site presents support for organizations looking to plan, build, or modernize
 
 ## Website preview
 
-- **Live website:** _Add the verified production URL when available._
-- **Screenshot:** _Add a homepage screenshot here when available._
+- **Live website:** https://www.sbmconcepts.com/
+- **Screenshot:** <img width="1902" height="934" alt="Screenshot 2026-11-28 013048" src="https://github.com/user-attachments/assets/5e8c5623-dbf3-4165-86e8-948d40c5cfe0" />
+
 
 ## Current status
 
