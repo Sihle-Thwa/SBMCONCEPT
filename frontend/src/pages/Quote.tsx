@@ -1,251 +1,200 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { ArrowRight, Calculator, Check } from "lucide-react";
-import { Layout } from "../components/layout/Layout";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Slider } from "@/components/ui/slider";
-import "./Quote.css";
+import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
+import { ArrowUpRight } from "lucide-react"
+import { Layout } from "@/components/layout/Layout"
+import { estimate, formatRand, projectTypes, quoteFeatures, type Timeline } from "@/lib/quote"
+import { cn } from "@/lib/utils"
+import "./Quote.css"
 
-const projectTypes = [
-  { id: "website", label: "Website", basePrice: 25000 },
-  { id: "webapp", label: "Web Application", basePrice: 50000 },
-  { id: "ecommerce", label: "E-commerce", basePrice: 75000 },
-  { id: "enterprise", label: "Enterprise System", basePrice: 150000 },
-];
+const timelines: { id: Timeline; label: string; note: string }[] = [
+	{ id: "flexible", label: "Flexible", note: "-10%" },
+	{ id: "standard", label: "Standard", note: "" },
+	{ id: "rush", label: "Rush", note: "+30%" },
+]
 
-const features = [
-  { id: "auth", label: "User Authentication", price: 10000 },
-  { id: "payments", label: "Payment Integration", price: 15000 },
-  { id: "api", label: "API Development", price: 20000 },
-  { id: "admin", label: "Admin Dashboard", price: 25000 },
-  { id: "cms", label: "Content Management", price: 15000 },
-  { id: "analytics", label: "Analytics & Reporting", price: 20000 },
-  { id: "mobile", label: "Mobile Optimization", price: 10000 },
-  { id: "seo", label: "Advanced SEO", price: 8000 },
-];
+const pageDescription =
+	"Get an instant indicative estimate for your website, web app or system."
 
-const Quote = () => {
-  const [projectType, setProjectType] = useState("website");
-  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
-  const [pages, setPages] = useState([5]);
-  const [timeline, setTimeline] = useState("standard");
+const pageMetadata = [
+	{ attribute: "name", value: "description", content: pageDescription },
+	{
+		attribute: "property",
+		value: "og:title",
+		content: "Project estimate calculator - SBM Concepts",
+	},
+	{ attribute: "property", value: "og:description", content: pageDescription },
+	{ attribute: "property", value: "og:type", content: "website" },
+	{
+		attribute: "name",
+		value: "twitter:card",
+		content: "summary_large_image",
+	},
+] as const
 
-  const calculateEstimate = () => {
-    const basePrice = projectTypes.find((p) => p.id === projectType)?.basePrice || 0;
-    const featuresPrice = selectedFeatures.reduce((sum, id) => {
-      const feature = features.find((f) => f.id === id);
-      return sum + (feature?.price || 0);
-    }, 0);
-    const pagesMultiplier = 1 + (pages[0] - 5) * 0.05;
-    const timelineMultiplier = timeline === "rush" ? 1.3 : timeline === "flexible" ? 0.9 : 1;
-    
-    return Math.round((basePrice + featuresPrice) * pagesMultiplier * timelineMultiplier);
-  };
+function Quote() {
+	const [type, setType] = useState("website")
+	const [features, setFeatures] = useState<string[]>([])
+	const [pages, setPages] = useState(5)
+	const [timeline, setTimeline] = useState<Timeline>("standard")
+	const total = estimate(type, features, pages, timeline)
 
-  const estimate = calculateEstimate();
+	useEffect(() => {
+		const previousTitle = document.title
+		document.title = "Project estimate calculator - SBM Concepts"
 
-  const toggleFeature = (featureId: string) => {
-    setSelectedFeatures((prev) =>
-      prev.includes(featureId)
-        ? prev.filter((id) => id !== featureId)
-        : [...prev, featureId]
-    );
-  };
+		const restoreMetadata = pageMetadata.map(({ attribute, value, content }) => {
+			const selector = `meta[${attribute}="${value}"]`
+			const existing = document.head.querySelector<HTMLMetaElement>(selector)
+			const element = existing ?? document.createElement("meta")
+			const previousContent = existing?.getAttribute("content")
 
-  return (
-    <Layout>
-      <section className="quote-hero">
-        <div className="quote-hero__orb" />
-        <div className="quote-hero__container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="quote-hero__content"
-          >
-            <span className="quote-hero__label">Quote Calculator</span>
-            <h1 className="quote-hero__title">
-              Get an Instant <span className="text-gradient">Estimate</span>
-            </h1>
-            <p className="quote-hero__subtitle">
-              Use our calculator to get a rough estimate for your project. 
-              For a detailed quote, our team will review your requirements.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+			if (!existing) {
+				element.setAttribute(attribute, value)
+				document.head.append(element)
+			}
 
-      <section className="quote-calc">
-        <div className="quote-calc__container">
-          <div className="quote-calc__grid">
-            <div className="quote-calc__form">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="quote-calc__card"
-              >
-                <h3 className="quote-calc__card-title">Project Type</h3>
-                <RadioGroup value={projectType} onValueChange={setProjectType} className="quote-calc__radio-grid">
-                  {projectTypes.map((type) => (
-                    <div key={type.id} className="relative">
-                      <RadioGroupItem value={type.id} id={type.id} className="peer sr-only" />
-                      <Label
-                        htmlFor={type.id}
-                        className="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-border cursor-pointer transition-all peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5 hover:border-primary/50"
-                      >
-                        <span className="font-medium">{type.label}</span>
-                        <span className="text-sm text-muted-foreground">
-                          from R{type.basePrice.toLocaleString()}
-                        </span>
-                      </Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-              </motion.div>
+			element.setAttribute("content", content)
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="quote-calc__card"
-              >
-                <h3 className="quote-calc__card-title">Features & Add-ons</h3>
-                <div className="quote-calc__features-grid">
-                  {features.map((feature) => (
-                    <div
-                      key={feature.id}
-                      className={`quote-calc__feature-item ${
-                        selectedFeatures.includes(feature.id) ? "quote-calc__feature-item--active" : ""
-                      }`}
-                      onClick={() => toggleFeature(feature.id)}
-                    >
-                      <div className="quote-calc__feature-left">
-                        <Checkbox
-                          checked={selectedFeatures.includes(feature.id)}
-                          onCheckedChange={() => toggleFeature(feature.id)}
-                        />
-                        <span className="quote-calc__feature-label">{feature.label}</span>
-                      </div>
-                      <span className="quote-calc__feature-price">
-                        +R{feature.price.toLocaleString()}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
+			return () => {
+				if (!existing) {
+					element.remove()
+				} else if (previousContent === null) {
+					element.removeAttribute("content")
+				} else if (previousContent !== undefined) {
+					element.setAttribute("content", previousContent)
+				}
+			}
+		})
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="quote-calc__card"
-              >
-                <h3 className="quote-calc__card-title">
-                  Number of Pages/Screens: <span className="highlight">{pages[0]}</span>
-                </h3>
-                <Slider
-                  value={pages}
-                  onValueChange={setPages}
-                  max={50}
-                  min={1}
-                  step={1}
-                  className="w-full"
-                />
-                <div className="quote-calc__slider-labels">
-                  <span>1</span>
-                  <span>50+</span>
-                </div>
-              </motion.div>
+		return () => {
+			document.title = previousTitle
+			restoreMetadata.forEach((restore) => restore())
+		}
+	}, [])
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="quote-calc__card"
-              >
-                <h3 className="quote-calc__card-title">Timeline</h3>
-                <RadioGroup value={timeline} onValueChange={setTimeline} className="quote-calc__radio-grid quote-calc__radio-grid--timeline">
-                  {[
-                    { id: "flexible", label: "Flexible", desc: "10% discount" },
-                    { id: "standard", label: "Standard", desc: "Normal rate" },
-                    { id: "rush", label: "Rush", desc: "30% premium" },
-                  ].map((option) => (
-                    <div key={option.id} className="relative">
-                      <RadioGroupItem value={option.id} id={option.id} className="peer sr-only" />
-                      <Label
-                        htmlFor={option.id}
-                        className="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-border cursor-pointer transition-all peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5 hover:border-primary/50"
-                      >
-                        <span className="font-medium">{option.label + " "}</span>
-                        <span className="text-xs text-muted-foreground">{option.desc + " "}</span>
-                      </Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-              </motion.div>
-            </div>
+	const optionClass = (selected: boolean) =>
+		cn("quote-option", selected && "quote-option--active")
 
-            <div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="quote-calc__estimate"
-              >
-                <div className="quote-calc__estimate-header">
-                  <div className="quote-calc__estimate-icon">
-                    <Calculator />
-                  </div>
-                  <h3 className="quote-calc__estimate-title">Your Estimate</h3>
-                </div>
+	const toggleFeature = (featureId: string) => {
+		setFeatures((current) =>
+			current.includes(featureId) ?
+				current.filter((id) => id !== featureId)
+			:	[...current, featureId],
+		)
+	}
 
-                <div className="quote-calc__estimate-body">
-                  <div className="quote-calc__estimate-label">Estimated Cost</div>
-                  <div className="quote-calc__estimate-value">
-                    R{estimate.toLocaleString()}
-                  </div>
-                  <p className="quote-calc__estimate-note">
-                    *This is a rough estimate. Final pricing may vary based on detailed requirements.
-                  </p>
-                </div>
+	return (
+		<Layout>
+			<section className="quote-hero">
+				<div className="quote-container">
+					<p className="quote-eyebrow">Estimate calculator</p>
+					<h1>
+						What will it
+						<br />
+						cost to build?
+					</h1>
+					<p className="quote-hero__intro">
+						Pick what you need for a rough figure in seconds. It&apos;s
+						indicative only; we&apos;ll confirm a formal quote after a short
+						discovery call.
+					</p>
+				</div>
+			</section>
 
-                <div className="quote-calc__estimate-features">
-                  <div className="quote-calc__estimate-feature">
-                    <Check className="w-4 h-4" />
-                    <span>No hidden fees</span>
-                  </div>
-                  <div className="quote-calc__estimate-feature">
-                    <Check className="w-4 h-4" />
-                    <span>Fixed price guarantee</span>
-                  </div>
-                  <div className="quote-calc__estimate-feature">
-                    <Check className="w-4 h-4" />
-                    <span>Milestone-based payments</span>
-                  </div>
-                </div>
+			<section className="quote-section">
+				<div className="quote-container quote-layout">
+					<div className="quote-controls">
+						<fieldset className="quote-fieldset">
+							<legend>1. Project type</legend>
+							<div className="quote-options quote-options--projects">
+								{projectTypes.map((project) => (
+									<button
+										key={project.id}
+										type="button"
+										aria-pressed={type === project.id}
+										onClick={() => setType(project.id)}
+										className={optionClass(type === project.id)}>
+										{project.label}
+										<span>from {formatRand(project.basePrice)}</span>
+									</button>
+								))}
+							</div>
+						</fieldset>
 
-                <Button variant="default" size="lg" className="w-full" asChild>
-                  <Link to="/contact">
-                    Request Formal Quote
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </Button>
+						<fieldset className="quote-fieldset">
+							<legend>2. Features</legend>
+							<div className="quote-options quote-options--features">
+								{quoteFeatures.map((feature) => {
+									const selected = features.includes(feature.id)
 
-                <p className="quote-calc__estimate-disclaimer">
-                  We'll review your requirements and provide a detailed proposal within 48 hours.
-                </p>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </Layout>
-  );
-};
+									return (
+										<button
+											key={feature.id}
+											type="button"
+											aria-pressed={selected}
+											onClick={() => toggleFeature(feature.id)}
+											className={optionClass(selected)}>
+											{feature.label}
+											<span>+{formatRand(feature.price)}</span>
+										</button>
+									)
+								})}
+							</div>
+						</fieldset>
 
-export default Quote;
+						<fieldset className="quote-fieldset">
+							<legend>3. Pages or screens: {pages}</legend>
+							<input
+								aria-label="Pages or screens"
+								type="range"
+								min={1}
+								max={50}
+								value={pages}
+								onChange={(event) => setPages(Number(event.target.value))}
+								className="quote-range"
+							/>
+							<div className="quote-range__labels">
+								<span>1</span>
+								<span>50</span>
+							</div>
+						</fieldset>
+
+						<fieldset className="quote-fieldset">
+							<legend>4. Timeline</legend>
+							<div className="quote-options quote-options--timelines">
+								{timelines.map((option) => (
+									<button
+										key={option.id}
+										type="button"
+										aria-pressed={timeline === option.id}
+										onClick={() => setTimeline(option.id)}
+										className={optionClass(timeline === option.id)}>
+										{option.label}
+										<span>{option.note || "Base"}</span>
+									</button>
+								))}
+							</div>
+						</fieldset>
+					</div>
+
+					<aside className="quote-estimate" aria-label="Indicative estimate">
+						<p className="quote-estimate__label">Indicative estimate</p>
+						<p
+							className="quote-estimate__total"
+							data-testid="estimate"
+							aria-live="polite">
+							{formatRand(total)}
+						</p>
+						<p className="quote-estimate__vat">Excl. VAT</p>
+						<Link to="/contact" className="quote-estimate__link">
+							Request a formal quote
+							<ArrowUpRight aria-hidden="true" />
+						</Link>
+					</aside>
+				</div>
+			</section>
+		</Layout>
+	)
+}
+
+export default Quote

@@ -1,254 +1,189 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Send, CheckCircle2 } from "lucide-react";
-import { Layout } from "../components/layout/Layout";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
-import "./Contact.css";
+import { useEffect, useState, type FormEvent } from "react"
+import { toast } from "sonner"
+import { contact, services } from "@/lib/site-data"
+import { Layout } from "../components/layout/Layout"
+import "./Contact.css"
 
-const Contact = () => {
-  const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    company: "",
-    email: "",
-    phone: "",
-    service: "",
-    budget: "",
-    message: "",
-  });
+const pageDescription =
+	"Tell us about your project and we'll get back to you within one business day."
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    toast({
-      title: "Message Sent!",
-      description: "We'll get back to you within 24 hours.",
-    });
-  };
+const pageMetadata = [
+	{ attribute: "name", value: "description", content: pageDescription },
+	{ attribute: "property", value: "og:title", content: "Contact - SBM Concepts" },
+	{ attribute: "property", value: "og:description", content: pageDescription },
+	{ attribute: "property", value: "og:type", content: "website" },
+	{
+		attribute: "name",
+		value: "twitter:card",
+		content: "summary_large_image",
+	},
+] as const
 
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+function Contact() {
+	const [sent, setSent] = useState(false)
 
-  return (
-    <Layout>
-      <section className="contact-hero">
-        <div className="contact-hero__orb" />
-        <div className="contact-hero__container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="contact-hero__content"
-          >
-            <span className="contact-hero__label">Contact Us</span>
-            <h1 className="contact-hero__title">
-              Let's Start a <span className="text-gradient">Conversation</span>
-            </h1>
-            <p className="contact-hero__subtitle">
-              Have a project in mind? Get in touch with us and let's discuss 
-              how we can help bring your vision to life.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+	useEffect(() => {
+		const previousTitle = document.title
+		document.title = "Contact - SBM Concepts"
 
-      <section className="contact-section">
-        <div className="contact-section__container">
-          <div className="contact-section__grid">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="contact-section__info"
-            >
-              <div className="contact-section__info-card">
-                <div className="contact-section__info-card-inner">
-                  <div className="contact-section__info-icon">
-                    <Mail />
-                  </div>
-                  <div>
-                    <h4 className="contact-section__info-title">Email</h4>
-                    <a href="mailto:info@sbmconcepts.co.za" className="contact-section__info-value">
-                      info@sbmconcepts.co.za
-                    </a>
-                  </div>
-                </div>
-              </div>
+		const restoreMetadata = pageMetadata.map(({ attribute, value, content }) => {
+			const selector = `meta[${attribute}="${value}"]`
+			const existing = document.head.querySelector<HTMLMetaElement>(selector)
+			const element = existing ?? document.createElement("meta")
+			const previousContent = existing?.getAttribute("content")
 
-              <div className="contact-section__info-card">
-                <div className="contact-section__info-card-inner">
-                  <div className="contact-section__info-icon">
-                    <Phone />
-                  </div>
-                  <div>
-                    <h4 className="contact-section__info-title">Phone</h4>
-                    <a href="tel:+27123456789" className="contact-section__info-value">
-                      +27 12 345 6789
-                    </a>
-                  </div>
-                </div>
-              </div>
+			if (!existing) {
+				element.setAttribute(attribute, value)
+				document.head.append(element)
+			}
 
-              <div className="contact-section__info-card">
-                <div className="contact-section__info-card-inner">
-                  <div className="contact-section__info-icon">
-                    <MapPin />
-                  </div>
-                  <div>
-                    <h4 className="contact-section__info-title">Office</h4>
-                    <p className="contact-section__info-value">
-                      Johannesburg, South Africa
-                    </p>
-                  </div>
-                </div>
-              </div>
+			element.setAttribute("content", content)
 
-              <div className="contact-section__hours">
-                <h4 className="contact-section__hours-title">Business Hours</h4>
-                <div className="contact-section__hours-list">
-                  <p>Monday - Friday: 8:00 AM - 5:00 PM</p>
-                  <p>Saturday: 9:00 AM - 1:00 PM</p>
-                  <p>Sunday: Closed</p>
-                </div>
-              </div>
-            </motion.div>
+			return () => {
+				if (!existing) {
+					element.remove()
+				} else if (previousContent === null) {
+					element.removeAttribute("content")
+				} else if (previousContent !== undefined) {
+					element.setAttribute("content", previousContent)
+				}
+			}
+		})
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="contact-section__form-wrapper"
-            >
-              {isSubmitted ? (
-                <div className="contact-section__success">
-                  <div className="contact-section__success-icon">
-                    <CheckCircle2 />
-                  </div>
-                  <h3 className="contact-section__success-title">Thank You!</h3>
-                  <p className="contact-section__success-desc">
-                    Your message has been sent successfully. We'll get back to you within 24 hours.
-                  </p>
-                  <Button variant="outline" onClick={() => setIsSubmitted(false)}>
-                    Send Another Message
-                  </Button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="contact-section__form">
-                  <h3 className="contact-section__form-title">Send us a Message</h3>
-                  
-                  <div className="contact-section__form-grid">
-                    <div className="contact-section__form-field">
-                      <Label htmlFor="name">Full Name *</Label>
-                      <Input
-                        id="name"
-                        placeholder="John Doe"
-                        value={formData.name}
-                        onChange={(e) => handleChange("name", e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div className="contact-section__form-field">
-                      <Label htmlFor="company">Company</Label>
-                      <Input
-                        id="company"
-                        placeholder="Your Company"
-                        value={formData.company}
-                        onChange={(e) => handleChange("company", e.target.value)}
-                      />
-                    </div>
-                    <div className="contact-section__form-field">
-                      <Label htmlFor="email">Email Address *</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="john@example.com"
-                        value={formData.email}
-                        onChange={(e) => handleChange("email", e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div className="contact-section__form-field">
-                      <Label htmlFor="phone">Phone Number</Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        placeholder="+27 12 345 6789"
-                        value={formData.phone}
-                        onChange={(e) => handleChange("phone", e.target.value)}
-                      />
-                    </div>
-                    <div className="contact-section__form-field">
-                      <Label htmlFor="service">Service Required</Label>
-                      <Select onValueChange={(value) => handleChange("service", value)}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a service" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="web">Web Development</SelectItem>
-                          <SelectItem value="software">Software Development</SelectItem>
-                          <SelectItem value="devops">DevOps & Cloud</SelectItem>
-                          <SelectItem value="consulting">IT Consulting</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="contact-section__form-field">
-                      <Label htmlFor="budget">Budget Range</Label>
-                      <Select onValueChange={(value) => handleChange("budget", value)}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select budget range" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="25k-50k">R25,000 - R50,000</SelectItem>
-                          <SelectItem value="50k-100k">R50,000 - R100,000</SelectItem>
-                          <SelectItem value="100k-250k">R100,000 - R250,000</SelectItem>
-                          <SelectItem value="250k+">R250,000+</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
+		return () => {
+			document.title = previousTitle
+			restoreMetadata.forEach((restore) => restore())
+		}
+	}, [])
 
-                  <div className="contact-section__form-field contact-section__form-message">
-                    <Label htmlFor="message">Message *</Label>
-                    <Textarea
-                      id="message"
-                      placeholder="Tell us about your project..."
-                      rows={5}
-                      value={formData.message}
-                      onChange={(e) => handleChange("message", e.target.value)}
-                      required
-                    />
-                  </div>
+	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault()
+		setSent(true)
+		toast.info("This contact form is not connected yet. No message was sent.")
+	}
 
-                  <Button type="submit" variant="default" size="lg" className="w-full" disabled={isSubmitting}>
-                    {isSubmitting ? (
-                      <>Sending...</>
-                    ) : (
-                      <>
-                        Send Message
-                        <Send className="w-4 h-4" />
-                      </>
-                    )}
-                  </Button>
-                </form>
-              )}
-            </motion.div>
-          </div>
-        </div>
-      </section>
-    </Layout>
-  );
-};
+	return (
+		<Layout>
+			<section className="contact-hero">
+				<div className="contact-container">
+					<span className="contact-eyebrow">Contact</span>
+					<h1>
+						Let&apos;s build
+						<br />
+						something solid.
+					</h1>
+					<p>
+						Tell us a little about your project. We reply within one business
+						day.
+					</p>
+				</div>
+			</section>
 
-export default Contact;
+			<section className="contact-section">
+				<div className="contact-container contact-section__grid">
+					<div className="contact-details">
+						<div className="contact-detail">
+							<p>Email</p>
+							<a href={`mailto:${contact.email}`}>{contact.email}</a>
+						</div>
+						<div className="contact-detail">
+							<p>Office</p>
+							<span>{contact.location}</span>
+						</div>
+					</div>
+
+					{sent ?
+						<div className="contact-notice" role="status">
+							<h2>Form not connected yet.</h2>
+							<p>
+								No message was sent. Please email us at{" "}
+								<a href={`mailto:${contact.email}`}>{contact.email}</a>.
+							</p>
+							<button
+								type="button"
+								className="contact-secondary-button"
+								onClick={() => setSent(false)}>
+								Return to the form
+							</button>
+						</div>
+					:	<form className="contact-form" onSubmit={handleSubmit}>
+							<label className="contact-field">
+								<span>Name *</span>
+								<input
+									required
+									name="name"
+									autoComplete="name"
+									placeholder="Your name"
+								/>
+							</label>
+
+							<label className="contact-field">
+								<span>Email *</span>
+								<input
+									required
+									type="email"
+									name="email"
+									autoComplete="email"
+									placeholder="you@example.com"
+								/>
+							</label>
+
+							<label className="contact-field">
+								<span>Organisation</span>
+								<input
+									name="organisation"
+									autoComplete="organization"
+									placeholder="Your organisation"
+								/>
+							</label>
+
+							<label className="contact-field">
+								<span>Organisation type</span>
+								<select name="organisationType" defaultValue="Startup">
+									<option>Startup</option>
+									<option>Private business</option>
+									<option>Corporate</option>
+									<option>Government</option>
+								</select>
+							</label>
+
+							<label className="contact-field contact-field--wide">
+								<span>Service needed</span>
+								<select name="service" defaultValue="">
+									<option value="" disabled>
+										Select a service
+									</option>
+									{services.map((service) => (
+										<option key={service.slug} value={service.slug}>
+											{service.title}
+										</option>
+									))}
+									<option value="not-sure">Not sure yet</option>
+								</select>
+							</label>
+
+							<label className="contact-field contact-field--wide">
+								<span>Project details *</span>
+								<textarea
+									required
+									name="message"
+									rows={4}
+									placeholder="Tell us what you are looking to build."
+								/>
+							</label>
+
+							<p className="contact-form__disclaimer">
+								This form is a demo and does not send or store submissions yet.
+							</p>
+							<button className="contact-submit" type="submit">
+								Send message
+							</button>
+						</form>
+					}
+				</div>
+			</section>
+		</Layout>
+	)
+}
+
+export default Contact

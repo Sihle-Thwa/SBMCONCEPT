@@ -1,253 +1,209 @@
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { 
-  ArrowRight, Target, Eye, Code2, TestTube, Shield, 
-  Cpu, Database, Cloud, Server, Lock, FileCode
-} from "lucide-react";
-import { Layout } from "../components/layout/Layout";
-import { Button } from "@/components/ui/button";
-import "./About.css";
+import { useEffect } from "react"
+import { motion } from "framer-motion"
+import { Link } from "react-router-dom"
+import { ArrowRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { steps } from "@/lib/site-data"
+import { Layout } from "../components/layout/Layout"
+import "./About.css"
 
-const competencies = [
-  { icon: Code2, title: "Software Development", description: "Full-stack development expertise" },
-  { icon: Target, title: "Web Development", description: "Modern, responsive web applications" },
-  { icon: Cloud, title: "DevOps", description: "CI/CD, containerization, cloud infrastructure" },
-  { icon: Eye, title: "Consulting", description: "Strategic technology guidance" },
-  { icon: TestTube, title: "QA & Testing", description: "Comprehensive quality assurance" },
-  { icon: Shield, title: "Security", description: "Security audits and implementation" },
-];
-
-const techStack = {
-  languages: ["TypeScript", "JavaScript", "Python", "Java", "C#", "Go"],
-  frameworks: ["React", "Next.js", "Node.js", "Django", "Spring Boot", ".NET"],
-  databases: ["PostgreSQL", "MongoDB", "MySQL", "Redis", "Elasticsearch"],
-  cloud: ["AWS", "Azure", "Google Cloud", "Docker", "Kubernetes", "Terraform"],
-};
+const values = [
+	{
+		title: "Engineering first",
+		body: "Senior developers on every project. Clean code, tests and documentation are part of the job, not extras.",
+	},
+	{
+		title: "Plain talk",
+		body: "No jargon walls. You always know what we're building, why, and what it costs.",
+	},
+	{
+		title: "You own it",
+		body: "Your code, your data, your cloud accounts. No lock-in.",
+	},
+	{
+		title: "Built for South Africa",
+		body: "We understand local payments, compliance, connectivity and procurement.",
+	},
+] as const
 
 const compliance = [
-  { icon: Shield, title: "POPIA Compliance", description: "Protection of Personal Information Act compliant" },
-  { icon: FileCode, title: "CSD Registration", description: "Central Supplier Database registered" },
-  { icon: Lock, title: "B-BBEE Alignment", description: "Committed to economic transformation" },
-  { icon: Server, title: "Secure SDLC", description: "Security integrated throughout development" },
-];
+	{
+		title: "POPIA compliant",
+		body: "Personal information handled under the Protection of Personal Information Act.",
+	},
+	{
+		title: "B-BBEE aligned",
+		body: "Committed to economic transformation and local skills development.",
+	},
+	{
+		title: "Secure by design",
+		body: "OWASP practices, access controls and security reviews on every release.",
+	},
+] as const
 
-const About = () => {
-  return (
-    <Layout>
-      <section className="about-hero">
-        <div className="about-hero__orb" />
-        <div className="about-hero__container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="about-hero__content"
-          >
-            <span className="about-hero__label">About Us</span>
-            <h1 className="about-hero__title">
-              Building the <span className="text-gradient">Future</span> of Digital
-            </h1>
-            <p className="about-hero__subtitle">
-              SBM Concepts is a technology consulting firm specializing in enterprise-grade 
-              web and software solutions. We transform complex business challenges into 
-              elegant digital experiences.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+const pageMetadata = [
+	{
+		attribute: "name",
+		value: "description",
+		content:
+			"A South African engineering consultancy building dependable software.",
+	},
+	{
+		attribute: "property",
+		value: "og:title",
+		content: "About - SBM Concepts",
+	},
+	{
+		attribute: "property",
+		value: "og:description",
+		content:
+			"A South African engineering consultancy building dependable software.",
+	},
+	{ attribute: "property", value: "og:type", content: "website" },
+	{
+		attribute: "name",
+		value: "twitter:card",
+		content: "summary_large_image",
+	},
+] as const
 
-      <section className="about-mv">
-        <div className="about-mv__container">
-          <div className="about-mv__grid">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="about-mv__card"
-            >
-              <div className="about-mv__card-icon about-mv__card-icon--primary">
-                <Target />
-              </div>
-              <h3 className="about-mv__card-title">Our Mission</h3>
-              <p className="about-mv__card-desc">
-                To empower businesses with innovative technology solutions that drive growth, 
-                efficiency, and competitive advantage. We believe in building lasting partnerships 
-                with our clients, delivering exceptional value through quality software and 
-                strategic consulting.
-              </p>
-            </motion.div>
+function About() {
+	useEffect(() => {
+		const previousTitle = document.title
+		document.title = "About - SBM Concepts"
 
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="about-mv__card"
-            >
-              <div className="about-mv__card-icon about-mv__card-icon--accent">
-                <Eye />
-              </div>
-              <h3 className="about-mv__card-title">Our Vision</h3>
-              <p className="about-mv__card-desc">
-                To be the leading technology partner for businesses across Africa, recognized 
-                for our technical excellence, innovative solutions, and commitment to client 
-                success. We strive to shape the digital landscape and contribute to 
-                technological advancement in the region.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+		const restoreMetadata = pageMetadata.map(
+			({ attribute, value, content }) => {
+				const selector = `meta[${attribute}="${value}"]`
+				const existing = document.head.querySelector<HTMLMetaElement>(selector)
+				const element = existing ?? document.createElement("meta")
+				const previousContent = existing?.getAttribute("content")
 
-      <section className="about-comp">
-        <div className="about-comp__container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="about-comp__header"
-          >
-            <span className="about-comp__label">What We Excel At</span>
-            <h2 className="about-comp__title">
-              Core <span className="text-gradient">Competencies</span>
-            </h2>
-          </motion.div>
+				if (!existing) {
+					element.setAttribute(attribute, value)
+					document.head.append(element)
+				}
 
-          <div className="about-comp__grid">
-            {competencies.map((comp, index) => (
-              <motion.div
-                key={comp.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="about-comp__card"
-              >
-                <div className="about-comp__card-icon">
-                  <comp.icon />
-                </div>
-                <h4 className="about-comp__card-title">{comp.title}</h4>
-                <p className="about-comp__card-desc">{comp.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+				element.setAttribute("content", content)
 
-      <section className="about-tech">
-        <div className="about-tech__container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="about-tech__header"
-          >
-            <span className="about-tech__label">Technology Stack</span>
-            <h2 className="about-tech__title">
-              Tools & <span className="text-gradient">Technologies</span>
-            </h2>
-          </motion.div>
+				return () => {
+					if (!existing) {
+						element.remove()
+					} else if (previousContent === null) {
+						element.removeAttribute("content")
+					} else if (previousContent !== undefined) {
+						element.setAttribute("content", previousContent)
+					}
+				}
+			},
+		)
 
-          <div className="about-tech__grid">
-            {Object.entries(techStack).map(([category, items], index) => (
-              <motion.div
-                key={category}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="about-tech__card"
-              >
-                <div className="about-tech__card-header">
-                  {category === "languages" && <Cpu />}
-                  {category === "frameworks" && <Code2 />}
-                  {category === "databases" && <Database />}
-                  {category === "cloud" && <Cloud />}
-                  <h4>{category}</h4>
-                </div>
-                <div className="about-tech__tags">
-                  {items.map((item) => (
-                    <span key={item} className="about-tech__tag">
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+		return () => {
+			document.title = previousTitle
+			restoreMetadata.forEach((restore) => restore())
+		}
+	}, [])
 
-      <section className="about-compliance">
-        <div className="about-compliance__container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="about-compliance__header"
-          >
-            <span className="about-compliance__label">Compliance & Standards</span>
-            <h2 className="about-compliance__title">
-              Trusted & <span className="text-gradient">Compliant</span>
-            </h2>
-          </motion.div>
+	return (
+		<Layout>
+			<section className="about-hero">
+				<div className="about-hero__container">
+					<motion.div
+						className="about-hero__content"
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.6 }}>
+						<span className="about-eyebrow">About SBM Concepts</span>
+						<h1 className="about-hero__title">
+							Engineers who
+							<br />
+							speak business.
+						</h1>
+						<p className="about-hero__intro">
+							SBM Concepts is a Johannesburg-based programming and web
+							development consultancy. We help organisations of every size
+							design, build and run the software they depend on.
+						</p>
+					</motion.div>
+				</div>
+			</section>
 
-          <div className="about-compliance__grid">
-            {compliance.map((item, index) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="about-compliance__card"
-              >
-                <div className="about-compliance__card-icon">
-                  <item.icon />
-                </div>
-                <h4 className="about-compliance__card-title">{item.title}</h4>
-                <p className="about-compliance__card-desc">{item.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+			<section className="about-values" aria-label="Our values">
+				<div className="about-container about-values__grid">
+					{values.map((value, index) => (
+						<motion.article
+							key={value.title}
+							className="about-value"
+							initial={{ opacity: 0, y: 20 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
+							transition={{ duration: 0.5, delay: index * 0.06 }}>
+							<h2>{value.title}</h2>
+							<p>{value.body}</p>
+						</motion.article>
+					))}
+				</div>
+			</section>
 
-      <section className="about-cta">
-        <div className="about-cta__container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="about-cta__content"
-          >
-            <h2 className="about-cta__title">
-              Let's Build Something <span className="text-gradient">Great Together</span>
-            </h2>
-            <p className="about-cta__subtitle">
-              Ready to start your next project? We'd love to hear from you.
-            </p>
-            <div className="about-cta__actions">
-              <Button variant="hero" size="xl" asChild>
-                <Link to="/contact">
-                  Get in Touch
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
-              </Button>
-              <Button variant="outline" size="xl" asChild>
-                <Link to="/portfolio">View Our Work</Link>
-              </Button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-    </Layout>
-  );
-};
+			<section className="about-process">
+				<div className="about-container">
+					<span className="about-eyebrow">Our process</span>
+					<ol className="about-process__steps">
+						{steps.map((step) => (
+							<li className="about-process__step" key={step.no}>
+								<span className="about-process__number">{step.no}</span>
+								<h2>{step.title}</h2>
+								<p>{step.body}</p>
+							</li>
+						))}
+					</ol>
+				</div>
+			</section>
 
-export default About;
+			<section className="about-compliance">
+				<div className="about-container">
+					<span className="about-eyebrow">Compliance &amp; standards</span>
+					<div className="about-compliance__grid">
+						{compliance.map((item, index) => (
+							<motion.article
+								className="about-compliance__card"
+								key={item.title}
+								initial={{ opacity: 0, y: 20 }}
+								whileInView={{ opacity: 1, y: 0 }}
+								viewport={{ once: true }}
+								transition={{ duration: 0.5, delay: index * 0.06 }}>
+								<h2>{item.title}</h2>
+								<p>{item.body}</p>
+							</motion.article>
+						))}
+					</div>
+				</div>
+			</section>
+
+			<section className="about-cta">
+				<div className="about-container about-cta__content">
+					<h2>
+						Have a project in mind? <span>Let&apos;s talk.</span>
+					</h2>
+					<p>
+						Tell us what you&apos;re building and we&apos;ll discuss the next
+						steps.
+					</p>
+					<div className="about-cta__actions">
+						<Button variant="hero" size="xl" asChild>
+							<Link to="/contact">
+								Start a conversation
+								<ArrowRight aria-hidden="true" className="w-5 h-5" />
+							</Link>
+						</Button>
+						<Button variant="outline" size="xl" asChild>
+							<Link to="/portfolio">View our work</Link>
+						</Button>
+					</div>
+				</div>
+			</section>
+		</Layout>
+	)
+}
+
+export default About
