@@ -2,7 +2,13 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { ArrowUpRight } from "lucide-react"
 import { Layout } from "@/components/layout/Layout"
-import { estimate, formatRand, projectTypes, quoteFeatures, type Timeline } from "@/lib/quote"
+import {
+	estimate,
+	formatRand,
+	projectTypes,
+	quoteFeatures,
+	type Timeline,
+} from "@/lib/quote"
 import { cn } from "@/lib/utils"
 import "./Quote.css"
 
@@ -42,29 +48,31 @@ function Quote() {
 		const previousTitle = document.title
 		document.title = "Project estimate calculator - SBM Concepts"
 
-		const restoreMetadata = pageMetadata.map(({ attribute, value, content }) => {
-			const selector = `meta[${attribute}="${value}"]`
-			const existing = document.head.querySelector<HTMLMetaElement>(selector)
-			const element = existing ?? document.createElement("meta")
-			const previousContent = existing?.getAttribute("content")
+		const restoreMetadata = pageMetadata.map(
+			({ attribute, value, content }) => {
+				const selector = `meta[${attribute}="${value}"]`
+				const existing = document.head.querySelector<HTMLMetaElement>(selector)
+				const element = existing ?? document.createElement("meta")
+				const previousContent = existing?.getAttribute("content")
 
-			if (!existing) {
-				element.setAttribute(attribute, value)
-				document.head.append(element)
-			}
-
-			element.setAttribute("content", content)
-
-			return () => {
 				if (!existing) {
-					element.remove()
-				} else if (previousContent === null) {
-					element.removeAttribute("content")
-				} else if (previousContent !== undefined) {
-					element.setAttribute("content", previousContent)
+					element.setAttribute(attribute, value)
+					document.head.append(element)
 				}
-			}
-		})
+
+				element.setAttribute("content", content)
+
+				return () => {
+					if (!existing) {
+						element.remove()
+					} else if (previousContent === null) {
+						element.removeAttribute("content")
+					} else if (previousContent !== undefined) {
+						element.setAttribute("content", previousContent)
+					}
+				}
+			},
+		)
 
 		return () => {
 			document.title = previousTitle

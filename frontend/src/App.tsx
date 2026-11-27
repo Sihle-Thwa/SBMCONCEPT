@@ -9,7 +9,7 @@ import Services from "./pages/Services"
 import Pricing from "./pages/Pricing"
 import Quote from "./pages/Quote"
 import About from "./pages/About"
-import Portfolio from "./pages/Work"
+import Work from "./pages/Work"
 import Contact from "./pages/Contact"
 import NotFound from "./pages/NotFound"
 import "./App.css"
@@ -74,7 +74,7 @@ const App = () => (
 						<Route path="/pricing" element={<Pricing />} />
 						<Route path="/quote" element={<Quote />} />
 						<Route path="/about" element={<About />} />
-						<Route path="/portfolio" element={<Portfolio />} />
+						<Route path="/work" element={<Work />} />
 						<Route path="/contact" element={<Contact />} />
 						<Route
 							path="*"

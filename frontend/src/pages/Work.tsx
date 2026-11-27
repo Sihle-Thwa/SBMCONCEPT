@@ -1,7 +1,9 @@
 import { useEffect, type ReactNode } from "react"
+import { ArrowUpRight } from "lucide-react"
 import { Layout } from "@/components/layout/Layout"
+import { Button } from "@/components/ui/button"
 import { Reveal } from "@/lib/Reveal"
-import { work } from "@/lib/site-data"
+import { work, websiteCaseStudies } from "@/lib/site-data"
 import "./Work.css"
 
 const pageDescription =
@@ -43,29 +45,31 @@ function Work() {
 		const previousTitle = document.title
 		document.title = "Work - SBM Concepts"
 
-		const restoreMetadata = pageMetadata.map(({ attribute, value, content }) => {
-			const selector = `meta[${attribute}="${value}"]`
-			const existing = document.head.querySelector<HTMLMetaElement>(selector)
-			const element = existing ?? document.createElement("meta")
-			const previousContent = existing?.getAttribute("content")
+		const restoreMetadata = pageMetadata.map(
+			({ attribute, value, content }) => {
+				const selector = `meta[${attribute}="${value}"]`
+				const existing = document.head.querySelector<HTMLMetaElement>(selector)
+				const element = existing ?? document.createElement("meta")
+				const previousContent = existing?.getAttribute("content")
 
-			if (!existing) {
-				element.setAttribute(attribute, value)
-				document.head.append(element)
-			}
-
-			element.setAttribute("content", content)
-
-			return () => {
 				if (!existing) {
-					element.remove()
-				} else if (previousContent === null) {
-					element.removeAttribute("content")
-				} else if (previousContent !== undefined) {
-					element.setAttribute("content", previousContent)
+					element.setAttribute(attribute, value)
+					document.head.append(element)
 				}
-			}
-		})
+
+				element.setAttribute("content", content)
+
+				return () => {
+					if (!existing) {
+						element.remove()
+					} else if (previousContent === null) {
+						element.removeAttribute("content")
+					} else if (previousContent !== undefined) {
+						element.setAttribute("content", previousContent)
+					}
+				}
+			},
+		)
 
 		return () => {
 			document.title = previousTitle
@@ -84,8 +88,8 @@ function Work() {
 						move the needle.
 					</h1>
 					<p>
-						A selection of platforms we&apos;ve engineered across the public
-						and private sector.
+						A selection of platforms we&apos;ve engineered across the public and
+						private sector.
 					</p>
 				</div>
 			</section>
@@ -137,6 +141,47 @@ function Work() {
 					</div>
 				</div>
 			</section>
+
+			{websiteCaseStudies.map((study) => (
+				<section
+					key={study.url}
+					className="border-b border-border bg-secondary">
+					<div className="mx-auto max-w-7xl px-5 py-24 md:px-8">
+						<Reveal>
+							<div className="flex flex-col justify-between gap-6 md:flex-row md:items-start">
+								<div>
+									<Eyebrow>Case study · {study.sector}</Eyebrow>
+									<h2 className="mt-6 text-4xl font-bold md:text-6xl">
+										{study.client}
+									</h2>
+								</div>
+								<Button asChild variant="outline" className="self-start">
+									<a
+										href={study.url}
+										target="_blank"
+										rel="noopener noreferrer"
+										aria-label={`Visit ${study.client} website (opens in a new tab)`}>
+										Visit website <ArrowUpRight />
+									</a>
+								</Button>
+							</div>
+							<p className="mt-6 max-w-3xl text-xl text-muted-foreground">
+								{study.body}
+							</p>
+							<div className="mt-14 grid gap-10 md:grid-cols-3">
+								{study.sections.map((section) => (
+									<div
+										key={section.title}
+										className="border-t border-border pt-6">
+										<h3 className="text-xl font-semibold">{section.title}</h3>
+										<p className="mt-3 text-muted-foreground">{section.body}</p>
+									</div>
+								))}
+							</div>
+						</Reveal>
+					</div>
+				</section>
+			))}
 		</Layout>
 	)
 }

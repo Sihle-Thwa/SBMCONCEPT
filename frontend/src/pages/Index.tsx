@@ -174,7 +174,7 @@ function Index() {
 							<Eyebrow>Selected work</Eyebrow>
 							<h2>Built to ship. Built to last.</h2>
 						</div>
-						<Link to="/portfolio" className="home-work__all">
+						<Link to="/work" className="home-work__all">
 							All projects
 							<ArrowRight aria-hidden="true" />
 						</Link>

@@ -140,70 +140,81 @@ export const steps = [
 	},
 ] as const
 
+export const websiteCaseStudies = [
+	{
+		client: "Dawn Analytics",
+		sector: "Financial technology",
+		title: "Private debt planning for South Africans",
+		body: "A browser-based debt planning tool that compares repayment strategies in Rands, without bank connections or an account.",
+		tags: ["Web application", "Financial tools", "Privacy"],
+		url: "https://www.dawn-analytics.com/",
+		sections: [
+			{
+				title: "Context",
+				body: "Working professionals and small entrepreneurs need a clear way to understand their debts and compare repayment options in a South African context.",
+			},
+			{
+				title: "Platform",
+				body: "The Dawn-Debt Tool compares avalanche, snowball and consolidation strategies using balances, interest rates and minimum payments. Calculations run locally in the browser, without sharing bank logins or requiring sign-up.",
+			},
+			{
+				title: "Experience",
+				body: "Users can compare interest costs and debt-free dates side by side in ZAR. The tool supports informed planning and is educational, rather than a replacement for an NCR-registered debt counsellor.",
+			},
+		],
+	},
+	{
+		client: "EasyOps",
+		sector: "Workforce technology",
+		title: "Workforce operations, connected across sites",
+		body: "A South African workforce platform bringing attendance, scheduling, payroll-ready reporting and multi-site oversight together.",
+		tags: ["Web platform", "Workforce management", "Integrations"],
+		url: "https://www.easyops.co.za/",
+		sections: [
+			{
+				title: "Context",
+				body: "Teams working across offices, sites and field locations need consistent attendance records, coordinated shifts and a clearer view of day-to-day workforce operations.",
+			},
+			{
+				title: "Platform",
+				body: "EasyOps presents QR, biometric and WhatsApp check-in options alongside shift scheduling, attendance dashboards and payroll exports. Its plans cater to single-site businesses through to larger, multi-site organisations.",
+			},
+			{
+				title: "Experience",
+				body: "Managers can monitor attendance, review overtime and absenteeism, and prepare payroll-ready reports from one platform. South African labour requirements are addressed through BCEA-focused records and audit features.",
+			},
+		],
+	},
+] as const
+
 export const work = [
 	{
 		client: "National Municipal Services",
 		sector: "Government",
 		title: "Municipal Sanitation & Water Portal",
 		body: "GIS-enabled platform for municipal water and sanitation infrastructure: GIS, asset lifecycle, maintenance, demand management and compliance reporting for South African municipalities.",
-		tags: [
-			"GIS",
-			"Backend",
-			"GRAP",
-			"mSCOA",
-			"MFMA",
-			"Backend",
-			"Frontend",
-			"APIs",
-			"Integration",
-		],
+		tags: ["Backend", "Frontend", "APIs", "Integration"],
 	},
 	{
 		client: "Dawn-Analytics",
 		sector: "Private",
 		title: "Financial Education Platform",
 		body: "Platform is a comprehensive, modern web application designed to help South African households manage, understand, and strategically pay off their debt.",
-		tags: [
-			"Finance",
-			"FinTech",
-			"Education",
-			"AI Integration",
-			"Integration",
-			"Frontend",
-			"Backend",
-		],
+		tags: ["FinTech", "Education", "Frontend", "Backend"],
 	},
 	{
 		client: "Open Shop",
 		sector: "Private",
 		title: "E-commerce platform for luxury fashion",
 		body: "OpenShop is a modern e-commerce web application built for selling luxury fashion and accessories at discounted prices.",
-		tags: [
-			"E-commerce",
-			"Frontend",
-			"Backend",
-			"Integration",
-			"Database",
-			"Authentication",
-			"API Development",
-			"Cloud Infrastructure",
-		],
+		tags: ["Frontend", "Backend", "Database", "APIs"],
 	},
 	{
 		client: "EasyOps",
 		sector: "Private Corporate",
 		title: "Workforce Management System",
 		body: "EasyOps is a cloud-native workforce management platform purpose-built for South African (and African) organisations operating across multiple sites and shift patterns.",
-		tags: [
-			"Workforce Management",
-			"Frontend",
-			"Backend",
-			"Database",
-			"Integration",
-			"Authentication",
-			"API Development",
-			"Automation",
-		],
+		tags: ["Frontend", "Backend", "Database", "Auth"],
 	},
 ] as const
 
