@@ -9,7 +9,11 @@ const pageDescription =
 
 const pageMetadata = [
 	{ attribute: "name", value: "description", content: pageDescription },
-	{ attribute: "property", value: "og:title", content: "Contact - SBM Concepts" },
+	{
+		attribute: "property",
+		value: "og:title",
+		content: "Contact - SBM Concepts",
+	},
 	{ attribute: "property", value: "og:description", content: pageDescription },
 	{ attribute: "property", value: "og:type", content: "website" },
 	{
@@ -26,29 +30,31 @@ function Contact() {
 		const previousTitle = document.title
 		document.title = "Contact - SBM Concepts"
 
-		const restoreMetadata = pageMetadata.map(({ attribute, value, content }) => {
-			const selector = `meta[${attribute}="${value}"]`
-			const existing = document.head.querySelector<HTMLMetaElement>(selector)
-			const element = existing ?? document.createElement("meta")
-			const previousContent = existing?.getAttribute("content")
+		const restoreMetadata = pageMetadata.map(
+			({ attribute, value, content }) => {
+				const selector = `meta[${attribute}="${value}"]`
+				const existing = document.head.querySelector<HTMLMetaElement>(selector)
+				const element = existing ?? document.createElement("meta")
+				const previousContent = existing?.getAttribute("content")
 
-			if (!existing) {
-				element.setAttribute(attribute, value)
-				document.head.append(element)
-			}
-
-			element.setAttribute("content", content)
-
-			return () => {
 				if (!existing) {
-					element.remove()
-				} else if (previousContent === null) {
-					element.removeAttribute("content")
-				} else if (previousContent !== undefined) {
-					element.setAttribute("content", previousContent)
+					element.setAttribute(attribute, value)
+					document.head.append(element)
 				}
-			}
-		})
+
+				element.setAttribute("content", content)
+
+				return () => {
+					if (!existing) {
+						element.remove()
+					} else if (previousContent === null) {
+						element.removeAttribute("content")
+					} else if (previousContent !== undefined) {
+						element.setAttribute("content", previousContent)
+					}
+				}
+			},
+		)
 
 		return () => {
 			document.title = previousTitle
@@ -172,9 +178,6 @@ function Contact() {
 								/>
 							</label>
 
-							<p className="contact-form__disclaimer">
-								This form is a demo and does not send or store submissions yet.
-							</p>
 							<button className="contact-submit" type="submit">
 								Send message
 							</button>

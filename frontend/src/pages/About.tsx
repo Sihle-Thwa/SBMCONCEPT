@@ -1,8 +1,5 @@
 import { useEffect } from "react"
 import { motion } from "framer-motion"
-import { Link } from "react-router-dom"
-import { ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { steps } from "@/lib/site-data"
 import { Layout } from "../components/layout/Layout"
 import "./About.css"
@@ -176,29 +173,6 @@ function About() {
 								<p>{item.body}</p>
 							</motion.article>
 						))}
-					</div>
-				</div>
-			</section>
-
-			<section className="about-cta">
-				<div className="about-container about-cta__content">
-					<h2>
-						Have a project in mind? <span>Let&apos;s talk.</span>
-					</h2>
-					<p>
-						Tell us what you&apos;re building and we&apos;ll discuss the next
-						steps.
-					</p>
-					<div className="about-cta__actions">
-						<Button variant="hero" size="xl" asChild>
-							<Link to="/contact">
-								Start a conversation
-								<ArrowRight aria-hidden="true" className="w-5 h-5" />
-							</Link>
-						</Button>
-						<Button variant="outline" size="xl" asChild>
-							<Link to="/portfolio">View our work</Link>
-						</Button>
 					</div>
 				</div>
 			</section>

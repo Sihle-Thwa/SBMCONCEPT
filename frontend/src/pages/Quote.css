@@ -150,7 +150,7 @@
 .quote-estimate {
 	position: relative;
 	padding: 32px;
-	background-color: oklch(0.1 0.04 255);
+	background-color: var(--color-fg);
 	color: oklch(0.98 0.005 240);
 }
 
@@ -205,7 +205,7 @@
 	flex-shrink: 0;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
 	.quote-container {
 		padding-right: 32px;
 		padding-left: 32px;
