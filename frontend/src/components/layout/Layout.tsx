@@ -1,20 +1,18 @@
-import { type ReactNode } from "react";
-import { Navbar } from "./Navbar";
-import { Footer } from "./Footer";
-import "./Layout.css";
+import { type ReactNode } from "react"
+import { Navbar } from "./Navbar"
+import { Footer } from "./Footer"
+import "./Layout.css"
 
 interface LayoutProps {
-  children: ReactNode;
+	children: ReactNode
 }
 
 export function Layout({ children }: LayoutProps) {
-  return (
-    <div className="layout">
-      <Navbar />
-      <main className="layout__main">
-        {children}
-      </main>
-      <Footer />
-    </div>
-  );
+	return (
+		<div className="layout">
+			<Navbar />
+			<main className="layout__main">{children}</main>
+			<Footer />
+		</div>
+	)
 }

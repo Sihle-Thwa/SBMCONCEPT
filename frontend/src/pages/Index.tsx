@@ -39,29 +39,31 @@ function Index() {
 		const previousTitle = document.title
 		document.title = "SBM Concepts - Software that runs your business"
 
-		const restoreMetadata = pageMetadata.map(({ attribute, value, content }) => {
-			const selector = `meta[${attribute}="${value}"]`
-			const existing = document.head.querySelector<HTMLMetaElement>(selector)
-			const element = existing ?? document.createElement("meta")
-			const previousContent = existing?.getAttribute("content")
+		const restoreMetadata = pageMetadata.map(
+			({ attribute, value, content }) => {
+				const selector = `meta[${attribute}="${value}"]`
+				const existing = document.head.querySelector<HTMLMetaElement>(selector)
+				const element = existing ?? document.createElement("meta")
+				const previousContent = existing?.getAttribute("content")
 
-			if (!existing) {
-				element.setAttribute(attribute, value)
-				document.head.append(element)
-			}
-
-			element.setAttribute("content", content)
-
-			return () => {
 				if (!existing) {
-					element.remove()
-				} else if (previousContent === null) {
-					element.removeAttribute("content")
-				} else if (previousContent !== undefined) {
-					element.setAttribute("content", previousContent)
+					element.setAttribute(attribute, value)
+					document.head.append(element)
 				}
-			}
-		})
+
+				element.setAttribute("content", content)
+
+				return () => {
+					if (!existing) {
+						element.remove()
+					} else if (previousContent === null) {
+						element.removeAttribute("content")
+					} else if (previousContent !== undefined) {
+						element.setAttribute("content", previousContent)
+					}
+				}
+			},
+		)
 
 		return () => {
 			document.title = previousTitle
@@ -148,7 +150,7 @@ function Index() {
 				</div>
 			</section>
 
-			<section className="home-sectors">
+			<section className="home-section">
 				<div className="home-container">
 					<Eyebrow>Who we work with</Eyebrow>
 					<h2 className="home-sectors__title">
@@ -160,9 +162,7 @@ function Index() {
 								key={sector.title}
 								delay={index * 80}
 								className="home-sector">
-								<span className="home-sector__number">
-									0{index + 1}
-								</span>
+								<span className="home-sector__number">0{index + 1}</span>
 								<h3>{sector.title}</h3>
 								<p>{sector.body}</p>
 							</Reveal>
