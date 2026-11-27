@@ -35,12 +35,12 @@ export function Footer() {
 						<Link to="/" className="footer__logo">
 							<img
 								src="/Logomark.png"
-								alt=""
+								alt="SBM Concepts Logo"
 								width="32"
 								height="32"
-								className="footer__logo-image"
+								className="navbar__logo"
 							/>
-							<span>SBM Concepts</span>
+							<span className="navbar__brand-name">SBM Concepts</span>
 						</Link>
 						<p className="footer__description">
 							Technology consulting and digital delivery for organizations

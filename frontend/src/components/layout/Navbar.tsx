@@ -21,7 +21,7 @@ export function Navbar() {
 				<Link to="/" className="navbar__brand" onClick={closeMenu}>
 					<img
 						src="/Logomark.png"
-						alt=""
+						alt="SBM Concepts Logo"
 						width="32"
 						height="32"
 						className="navbar__logo"
